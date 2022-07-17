@@ -1,0 +1,7 @@
+{
+  "name": "widget-practice",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}
