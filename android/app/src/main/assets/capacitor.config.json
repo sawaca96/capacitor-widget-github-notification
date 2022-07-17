@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "widget-practice",
+	"webDir": "dist",
+	"bundledWebRuntime": false
+}
