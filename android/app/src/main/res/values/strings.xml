@@ -7,4 +7,6 @@
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
     <string name="app_widget_description">This is an app widget description</string>
+    <string name="app_widget_name">GithubPR</string>
+    <string name="app_widget_updated_at">Last updated: %1$s</string>
 </resources>

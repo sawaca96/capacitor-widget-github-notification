@@ -3,7 +3,12 @@ package io.ionic.starter
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
+import android.content.Intent
+import android.widget.ArrayAdapter
 import android.widget.RemoteViews
+import java.text.DateFormat
+import java.util.*
+
 
 /**
  * Implementation of App Widget functionality.
@@ -34,10 +39,15 @@ internal fun updateAppWidget(
     appWidgetManager: AppWidgetManager,
     appWidgetId: Int
 ) {
-    val widgetText = context.getString(R.string.appwidget_text)
+
     // Construct the RemoteViews object
     val views = RemoteViews(context.packageName, R.layout.github_pull_request)
-    views.setTextViewText(R.id.appwidget_text, widgetText)
+
+    // Set widget updated at
+    val dateString = DateFormat.getTimeInstance(DateFormat.SHORT).format(Date())
+    views.setTextViewText(R.id.widgetUpdatedAt,
+        context.resources.getString(
+            R.string.app_widget_updated_at, dateString));
 
     // Instruct the widget manager to update the widget
     appWidgetManager.updateAppWidget(appWidgetId, views)
