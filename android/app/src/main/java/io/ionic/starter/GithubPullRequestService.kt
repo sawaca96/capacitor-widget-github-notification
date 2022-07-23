@@ -4,9 +4,18 @@ import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import android.widget.RemoteViewsService.RemoteViewsFactory
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.json.JSONArray
+import java.io.InputStreamReader
+import java.net.HttpURLConnection
+import java.net.URL
 
 
 class GithubPullRequestService : RemoteViewsService() {
@@ -19,13 +28,27 @@ internal class GithubPullRequestFactory(private val mContext: Context, intent: I
     RemoteViewsFactory {
     private val mWidgetItems: MutableList<WidgetItem> = ArrayList()
     private val mAppWidgetId: Int
+
     override fun onCreate() {
+        GlobalScope.launch {
+            val result = httpGet("https://api.github.com/notifications?all=true")
+            mCount = result.length()
+            for (i in 0 until mCount) {
+                val jsonObject = result.getJSONObject(i)
+                val subject = jsonObject.getJSONObject("subject")
+                val title = subject.getString("title")
+                mWidgetItems.add(WidgetItem(title))
+            }
+
+        }
         // In onCreate() you setup any connections / cursors to your data source. Heavy lifting,
         // for example downloading or creating content etc, should be deferred to onDataSetChanged()
         // or getViewAt(). Taking more than 20 seconds in this call will result in an ANR.
-        for (i in 0 until mCount) {
-            mWidgetItems.add(WidgetItem("$i!"))
-        }
+
+        // for (i in 0 until mCount) {
+        //     mWidgetItems.add(WidgetItem("$i!"))
+        // }
+
         // We sleep for 3 seconds here to show how the empty view appears in the interim.
         // The empty view is set in the StackWidgetProvider and should be a sibling of the
         // collection view.
@@ -101,7 +124,7 @@ internal class GithubPullRequestFactory(private val mContext: Context, intent: I
     }
 
     companion object {
-        private const val mCount = 10
+        private var mCount = 0
     }
 
     init {
@@ -109,5 +132,34 @@ internal class GithubPullRequestFactory(private val mContext: Context, intent: I
             AppWidgetManager.EXTRA_APPWIDGET_ID,
             AppWidgetManager.INVALID_APPWIDGET_ID
         )
+    }
+
+
+    private suspend fun httpGet(
+        jsonBody: String
+    ):JSONArray {
+        // Move the execution of the coroutine to the I/O dispatcher
+        return withContext(Dispatchers.IO) {
+            val url = URL("https://api.github.com/notifications")
+            val token = ""
+
+            val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
+            conn.requestMethod = "GET"
+            conn.setRequestProperty("Authorization", "token $token")
+            conn.setRequestProperty(
+                "Content-Type",
+                "application/json"
+            ) // The format of the content we're sending to the server
+            conn.setRequestProperty("Accept", "application/json") //
+
+            if (conn.responseCode == HttpURLConnection.HTTP_OK) {
+                val streamReader = InputStreamReader(conn.inputStream)
+                val buffered = conn.inputStream.bufferedReader().use { it.readText() }
+                return@withContext JSONArray(buffered)
+            } else {
+                Log.e("GithubPullRequest", "Error: " + conn.responseCode)
+                return@withContext JSONArray()
+            }
+        }
     }
 }
