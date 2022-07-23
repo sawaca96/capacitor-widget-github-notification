@@ -4,7 +4,6 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
-import android.widget.ArrayAdapter
 import android.widget.RemoteViews
 import java.text.DateFormat
 import java.util.*
@@ -48,6 +47,10 @@ internal fun updateAppWidget(
     views.setTextViewText(R.id.widgetUpdatedAt,
         context.resources.getString(
             R.string.app_widget_updated_at, dateString));
+
+    // Set widget list
+    val serviceIntent = Intent(context, GithubPullRequestService::class.java)
+    views.setRemoteAdapter(R.id.widgetList, serviceIntent)
 
     // Instruct the widget manager to update the widget
     appWidgetManager.updateAppWidget(appWidgetId, views)

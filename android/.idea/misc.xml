@@ -13,6 +13,7 @@
         <entry key="app/src/main/res/layout/github_pull_request.xml" value="0.25" />
         <entry key="app/src/main/res/layout/github_pull_request_widget.xml" value="0.2744598388671875" />
         <entry key="app/src/main/res/layout/new_app_widget.xml" value="0.29981884057971014" />
+        <entry key="app/src/main/res/layout/pull_request_item.xml" value="0.1956521739130435" />
       </map>
     </option>
   </component>
