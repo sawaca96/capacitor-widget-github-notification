@@ -21,8 +21,11 @@ import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import android.widget.RemoteViews
 import android.widget.Toast
+import java.text.DateFormat
+import java.util.*
 
 class GithubPullRequestProvider : AppWidgetProvider() {
     override fun onDeleted(context: Context, appWidgetIds: IntArray) {
@@ -56,15 +59,24 @@ class GithubPullRequestProvider : AppWidgetProvider() {
         appWidgetIds: IntArray
     ) {
         // update each of the widgets with the remote adapter
-        for (i in appWidgetIds.indices) {
+        for (appWidgetId in appWidgetIds) {
             // Here we setup the intent which points to the StackViewService which will
             // provide the views for this collection.
             val intent = Intent(context, GithubPullRequestService::class.java)
-            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds[i])
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
             // When intents are compared, the extras are ignored, so we need to embed the extras
             // into the data so that the extras will not be ignored.
             intent.data = Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME))
             val rv = RemoteViews(context.packageName, R.layout.github_pull_request)
+
+            // Set widget updated at
+            val dateString = DateFormat.getTimeInstance(DateFormat.SHORT).format(Date())
+            Log.e("GithubPullRequestProvider", "dateString: $dateString")
+            rv.setTextViewText(R.id.widgetUpdatedAt,
+                context.resources.getString(
+                    R.string.app_widget_updated_at, dateString));
+
+
             rv.setRemoteAdapter(R.id.widgetList, intent)
             // The empty view is displayed when the collection has no items. It should be a sibling
             // of the collection view.
@@ -75,14 +87,14 @@ class GithubPullRequestProvider : AppWidgetProvider() {
             // to create unique before on an item to item basis.
             val toastIntent = Intent(context, GithubPullRequestProvider::class.java)
             toastIntent.action = TOAST_ACTION
-            toastIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds[i])
+            toastIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
             intent.data = Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME))
             val toastPendingIntent = PendingIntent.getBroadcast(
                 context, 0, toastIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT
             )
             rv.setPendingIntentTemplate(R.id.widgetList, toastPendingIntent)
-            appWidgetManager.updateAppWidget(appWidgetIds[i], rv)
+            appWidgetManager.updateAppWidget(appWidgetId, rv)
         }
         super.onUpdate(context, appWidgetManager, appWidgetIds)
     }

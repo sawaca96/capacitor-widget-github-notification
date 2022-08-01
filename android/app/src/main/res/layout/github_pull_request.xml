@@ -64,8 +64,8 @@
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/app_widget_description"
                 android:minWidth="48dp"
-                android:scaleType="centerInside"
                 android:padding="2dp"
+                android:scaleType="centerInside"
                 android:src="@drawable/baseline_sync_24" />
 
             <ImageButton

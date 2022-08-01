@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.animation.AnimationUtils
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import android.widget.RemoteViewsService.RemoteViewsFactory
@@ -24,23 +25,16 @@ class GithubPullRequestService : RemoteViewsService() {
     }
 }
 
+
 internal class GithubPullRequestFactory(private val mContext: Context, intent: Intent) :
     RemoteViewsFactory {
     private val mWidgetItems: MutableList<WidgetItem> = ArrayList()
     private val mAppWidgetId: Int
+    private val token:String = ""
 
     override fun onCreate() {
-        GlobalScope.launch {
-            val result = httpGet("https://api.github.com/notifications?all=true")
-            mCount = result.length()
-            for (i in 0 until mCount) {
-                val jsonObject = result.getJSONObject(i)
-                val subject = jsonObject.getJSONObject("subject")
-                val title = subject.getString("title")
-                mWidgetItems.add(WidgetItem(title))
-            }
+        fetchNotifications()
 
-        }
         // In onCreate() you setup any connections / cursors to your data source. Heavy lifting,
         // for example downloading or creating content etc, should be deferred to onDataSetChanged()
         // or getViewAt(). Taking more than 20 seconds in this call will result in an ANR.
@@ -56,6 +50,21 @@ internal class GithubPullRequestFactory(private val mContext: Context, intent: I
             Thread.sleep(3000)
         } catch (e: InterruptedException) {
             e.printStackTrace()
+        }
+    }
+
+    private fun fetchNotifications() {
+        GlobalScope.launch {
+            val result = httpGet(URL("https://api.github.com/notifications?all=true&per_page=10&page=1"))
+            mCount = result.length()
+            for (i in 0 until mCount) {
+                val jsonObject = result.getJSONObject(i)
+                val subject = jsonObject.getJSONObject("subject")
+                val title = subject.getString("title")
+                Log.e("title", title)
+                mWidgetItems.add(WidgetItem(title))
+            }
+
         }
     }
 
@@ -136,13 +145,10 @@ internal class GithubPullRequestFactory(private val mContext: Context, intent: I
 
 
     private suspend fun httpGet(
-        jsonBody: String
+        url: URL
     ):JSONArray {
         // Move the execution of the coroutine to the I/O dispatcher
         return withContext(Dispatchers.IO) {
-            val url = URL("https://api.github.com/notifications")
-            val token = ""
-
             val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
             conn.requestMethod = "GET"
             conn.setRequestProperty("Authorization", "token $token")
