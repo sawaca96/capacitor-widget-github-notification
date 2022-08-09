@@ -24,7 +24,9 @@ import android.widget.RemoteViews
 import java.text.DateFormat
 import java.util.*
 
+
 class GithubPullRequestProvider : AppWidgetProvider() {
+
     override fun onDeleted(context: Context, appWidgetIds: IntArray) {
         super.onDeleted(context, appWidgetIds)
     }
@@ -74,7 +76,6 @@ class GithubPullRequestProvider : AppWidgetProvider() {
 
             appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.widgetList)
             appWidgetManager.updateAppWidget(appWidgetId, rv)
-
         }
         super.onUpdate(context, appWidgetManager, appWidgetIds)
     }
