@@ -4,6 +4,7 @@ import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.text.format.DateUtils
 import android.view.View
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
@@ -11,6 +12,10 @@ import android.widget.RemoteViewsService.RemoteViewsFactory
 import org.json.JSONArray
 import java.net.HttpURLConnection
 import java.net.URL
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 
 class GithubPullRequestService : RemoteViewsService() {
@@ -21,7 +26,7 @@ class GithubPullRequestService : RemoteViewsService() {
 
 class GithubPullRequestFactory(private val widgetContext: Context, intent: Intent) :
     RemoteViewsFactory {
-    private val notifications: MutableList<Notification> = ArrayList()
+    private val notifications: MutableList<HashMap<String, String>> = ArrayList()
     private val token: String = BuildConfig.GITHUB_TOKEN
 
     override fun onCreate() {
@@ -58,7 +63,17 @@ class GithubPullRequestFactory(private val widgetContext: Context, intent: Inten
 
     override fun getViewAt(index: Int): RemoteViews {
         val rv = RemoteViews(widgetContext.packageName, R.layout.pull_request_item)
-        rv.setTextViewText(R.id.pull_request_item, notifications[index].text)
+        rv.setTextViewText(R.id.widgetItemTitle, notifications[index]["title"])
+        rv.setTextViewText(R.id.widgetRepoName, notifications[index]["repoName"])
+        rv.setTextViewText(R.id.widgetItemUpdatedAt, notifications[index]["updatedAt"])
+        if (notifications[index]["type"] == "PullRequest") {
+            rv.setImageViewResource(R.id.widgetItemIcon, R.drawable.ic_git_pull_request)
+        } else if (notifications[index]["type"] == "Issue") {
+            rv.setImageViewResource(R.id.widgetItemIcon, R.drawable.ic_issue_opened)
+        } else {
+            rv.setImageViewResource(R.id.widgetItemIcon, R.drawable.ic_git_pull_request)
+        }
+
         return rv
     }
 
@@ -83,9 +98,26 @@ class GithubPullRequestFactory(private val widgetContext: Context, intent: Inten
         val result = httpGet(URL("https://api.github.com/notifications"))
         for (i in 0 until result.length()) {
             val jsonObject = result.getJSONObject(i)
+            val updatedAt = jsonObject.getString("updated_at")
+            val repository = jsonObject.getJSONObject("repository")
+            val repositoryName = repository.getString("name")
             val subject = jsonObject.getJSONObject("subject")
             val title = subject.getString("title")
-            notifications.add(Notification(title))
+            val type = subject.getString("type")
+
+            val map = HashMap<String, String>()
+            map["title"] = title
+            map["repoName"] = repositoryName
+            map["type"] = type
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+            val date = inputFormat.parse(updatedAt)
+            val timeDiff = DateUtils.getRelativeTimeSpanString(
+                date.time,
+                Calendar.getInstance().timeInMillis,
+                DateUtils.MINUTE_IN_MILLIS
+            );
+            map["updatedAt"] = timeDiff.toString()
+            notifications.add(map)
         }
     }
 

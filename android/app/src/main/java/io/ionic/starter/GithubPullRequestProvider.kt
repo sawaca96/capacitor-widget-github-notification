@@ -22,6 +22,7 @@ import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
 import java.text.DateFormat
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -50,8 +51,7 @@ class GithubPullRequestProvider : AppWidgetProvider() {
     ) {
         for (appWidgetId in appWidgetIds) {
             val rv = RemoteViews(context.packageName, R.layout.github_pull_request)
-
-            val dateString = DateFormat.getTimeInstance(DateFormat.LONG).format(Date())
+            val dateString = SimpleDateFormat("H:mm", Locale.getDefault()).format(Date())
             rv.setTextViewText(
                 R.id.widgetUpdatedAt,
                 context.resources.getString(
