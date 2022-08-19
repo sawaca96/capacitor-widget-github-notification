@@ -20,14 +20,14 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.widget.RemoteViews
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
 
 class GithubPullRequestProvider : AppWidgetProvider() {
-
+    val ITEM_CLICKED = "ITEM_CLICKED"
     override fun onDeleted(context: Context, appWidgetIds: IntArray) {
         super.onDeleted(context, appWidgetIds)
     }
@@ -41,6 +41,15 @@ class GithubPullRequestProvider : AppWidgetProvider() {
     }
 
     override fun onReceive(context: Context, intent: Intent) {
+        if (intent.action == ITEM_CLICKED) {
+            val url = intent.getStringExtra("url")
+            val openIntent = Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse(url)
+            )
+            openIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            context.startActivity(openIntent)
+        }
         super.onReceive(context, intent)
     }
 
@@ -66,13 +75,21 @@ class GithubPullRequestProvider : AppWidgetProvider() {
             val syncIntent = Intent(context, GithubPullRequestProvider::class.java)
             syncIntent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
             syncIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds)
-            val pendingIntent = PendingIntent.getBroadcast(
+            val syncPendingIntent = PendingIntent.getBroadcast(
                 context,
                 appWidgetId,
                 syncIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
             )
-            rv.setOnClickPendingIntent(R.id.widgetSyncIcon, pendingIntent)
+            rv.setOnClickPendingIntent(R.id.widgetSyncIcon, syncPendingIntent)
+
+            val clickIntent = Intent(context, GithubPullRequestProvider::class.java)
+            clickIntent.action = ITEM_CLICKED
+            val clickPendingIntent = PendingIntent.getBroadcast(
+                context, appWidgetId, clickIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+            )
+            rv.setPendingIntentTemplate(R.id.widgetList, clickPendingIntent)
 
             appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.widgetList)
             appWidgetManager.updateAppWidget(appWidgetId, rv)
@@ -80,7 +97,4 @@ class GithubPullRequestProvider : AppWidgetProvider() {
         super.onUpdate(context, appWidgetManager, appWidgetIds)
     }
 
-    companion object {
-        const val EXTRA_ITEM = "io.ionic.starter.EXTRA_ITEM"
-    }
 }

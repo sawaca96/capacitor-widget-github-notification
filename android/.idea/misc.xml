@@ -9,6 +9,16 @@
         <entry key="app/src/main/res/drawable/ic_git_pull_request_draft.xml" value="0.174" />
         <entry key="app/src/main/res/drawable/ic_issue_opened.xml" value="0.174" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.205" />
+        <entry key="app/src/main/res/drawable/ic_mark_github.xml" value="0.1895" />
+        <entry key="app/src/main/res/drawable/ic_octicon_alert.xml" value="0.1895" />
+        <entry key="app/src/main/res/drawable/ic_octicon_comment_discussion.xml" value="0.1895" />
+        <entry key="app/src/main/res/drawable/ic_octicon_git_commit.xml" value="0.1895" />
+        <entry key="app/src/main/res/drawable/ic_octicon_git_pull_request.xml" value="0.1895" />
+        <entry key="app/src/main/res/drawable/ic_octicon_issue_opened.xml" value="0.1895" />
+        <entry key="app/src/main/res/drawable/ic_octicon_question.xml" value="0.1895" />
+        <entry key="app/src/main/res/drawable/ic_octicon_sync.xml" value="0.1895" />
+        <entry key="app/src/main/res/drawable/ic_octicon_tag.xml" value="0.1895" />
+        <entry key="app/src/main/res/drawable/ic_tag.xml" value="0.1895" />
         <entry key="app/src/main/res/layout/github_pull_request.xml" value="0.3582427536231884" />
         <entry key="app/src/main/res/layout/pull_request_item.xml" value="0.3582427536231884" />
       </map>

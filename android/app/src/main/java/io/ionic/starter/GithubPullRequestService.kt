@@ -14,8 +14,6 @@ import java.net.HttpURLConnection
 import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 
 class GithubPullRequestService : RemoteViewsService() {
@@ -24,7 +22,7 @@ class GithubPullRequestService : RemoteViewsService() {
     }
 }
 
-class GithubPullRequestFactory(private val widgetContext: Context, intent: Intent) :
+class GithubPullRequestFactory(private val widgetContext: Context, val intent: Intent) :
     RemoteViewsFactory {
     private val notifications: MutableList<HashMap<String, String>> = ArrayList()
     private val token: String = BuildConfig.GITHUB_TOKEN
@@ -63,16 +61,40 @@ class GithubPullRequestFactory(private val widgetContext: Context, intent: Inten
 
     override fun getViewAt(index: Int): RemoteViews {
         val rv = RemoteViews(widgetContext.packageName, R.layout.pull_request_item)
+
         rv.setTextViewText(R.id.widgetItemTitle, notifications[index]["title"])
         rv.setTextViewText(R.id.widgetRepoName, notifications[index]["repoName"])
         rv.setTextViewText(R.id.widgetItemUpdatedAt, notifications[index]["updatedAt"])
-        if (notifications[index]["type"] == "PullRequest") {
-            rv.setImageViewResource(R.id.widgetItemIcon, R.drawable.ic_git_pull_request)
-        } else if (notifications[index]["type"] == "Issue") {
-            rv.setImageViewResource(R.id.widgetItemIcon, R.drawable.ic_issue_opened)
-        } else {
-            rv.setImageViewResource(R.id.widgetItemIcon, R.drawable.ic_git_pull_request)
+
+        when (notifications[index]["type"]) {
+            "CheckSuite" -> rv.setImageViewResource(R.id.widgetItemIcon, R.drawable.ic_octicon_sync)
+            "Commit" -> rv.setImageViewResource(
+                R.id.widgetItemIcon,
+                R.drawable.ic_octicon_git_commit
+            )
+            "Discussion" -> rv.setImageViewResource(
+                R.id.widgetItemIcon,
+                R.drawable.ic_octicon_comment_discussion
+            )
+            "Issue" -> rv.setImageViewResource(
+                R.id.widgetItemIcon,
+                R.drawable.ic_octicon_issue_opened
+            )
+            "PullRequest" -> rv.setImageViewResource(
+                R.id.widgetItemIcon,
+                R.drawable.ic_octicon_git_pull_request
+            )
+            "Release" -> rv.setImageViewResource(R.id.widgetItemIcon, R.drawable.ic_octicon_tag)
+            "RepositoryVulnerabilityAlert" -> rv.setImageViewResource(
+                R.id.widgetItemIcon,
+                R.drawable.ic_octicon_alert
+            )
+            else -> rv.setImageViewResource(R.id.widgetItemIcon, R.drawable.ic_octicon_question)
         }
+
+        val fillInIntent = Intent()
+        fillInIntent.putExtra("url", notifications[index]["url"])
+        rv.setOnClickFillInIntent(R.id.widgetItem, fillInIntent)
 
         return rv
     }
@@ -101,14 +123,19 @@ class GithubPullRequestFactory(private val widgetContext: Context, intent: Inten
             val updatedAt = jsonObject.getString("updated_at")
             val repository = jsonObject.getJSONObject("repository")
             val repositoryName = repository.getString("name")
+            val repositoryFullName = repository.getString("full_name")
             val subject = jsonObject.getJSONObject("subject")
             val title = subject.getString("title")
             val type = subject.getString("type")
+            val rawUrl = subject.getString("url")
 
+            val pullRequestId = rawUrl.substring(rawUrl.lastIndexOf("/") + 1)
+            val url = "https://github.com/$repositoryFullName/pull/$pullRequestId"
             val map = HashMap<String, String>()
             map["title"] = title
             map["repoName"] = repositoryName
             map["type"] = type
+            map["url"] = url
             val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
             val date = inputFormat.parse(updatedAt)
             val timeDiff = DateUtils.getRelativeTimeSpanString(
