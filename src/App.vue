@@ -14,22 +14,18 @@
 import { ref, onMounted } from "vue";
 import { IonButton, IonApp, alertController } from "@ionic/vue";
 import { FirebaseAuthentication } from "@capacitor-firebase/authentication";
-import { Capacitor } from "@capacitor/core";
+import { SecureStoragePlugin } from "capacitor-secure-storage-plugin";
 
 const email = ref("");
 const photoUrl = ref("");
 const githubToken = ref("");
 
 onMounted(async () => {
-  githubToken.value = (await getIdToken()) || "";
+  githubToken.value = (await getToken()) || "";
 });
 
-const getIdToken = async () => {
-  if (Capacitor.isNativePlatform()) {
-    return "";
-  } else {
-    return localStorage.getItem("githubToken");
-  }
+const getToken = async () => {
+  return (await SecureStoragePlugin.get({ key: "githubToken" })).value;
 };
 
 const signInWithGithub = async () => {
@@ -43,11 +39,7 @@ const signInWithGithub = async () => {
 
 const saveToken = async (token: string) => {
   githubToken.value = token;
-  if (Capacitor.isNativePlatform()) {
-    return;
-  } else {
-    localStorage.setItem("githubToken", token);
-  }
+  SecureStoragePlugin.set({ key: "githubToken", value: token });
 };
 
 const signOut = async () => {
@@ -58,11 +50,7 @@ const signOut = async () => {
 
 const removeToken = async () => {
   githubToken.value = "";
-  if (Capacitor.isNativePlatform()) {
-    return;
-  } else {
-    localStorage.removeItem("githubToken");
-  }
+  SecureStoragePlugin.remove({ key: "githubToken" });
 };
 
 const presentAlert = async (message: string) => {
