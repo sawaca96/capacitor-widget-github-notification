@@ -2,5 +2,16 @@
 	"appId": "io.ionic.starter",
 	"appName": "widget-practice",
 	"webDir": "dist",
-	"bundledWebRuntime": false
+	"bundledWebRuntime": false,
+	"server": {
+		"url": "http://192.168.0.161:8080/",
+		"cleartext": true
+	},
+	"plugins": {
+		"FirebaseAuthentication": {
+			"providers": [
+				"github.com"
+			]
+		}
+	}
 }
