@@ -71,7 +71,9 @@ const initValues = async () => {
 };
 
 const signInWithGithub = async () => {
-  const result = await FirebaseAuthentication.signInWithGithub();
+  const result = await FirebaseAuthentication.signInWithGithub({
+    scopes: ["notifications"],
+  });
   await presentAlert("success sign in");
   saveUserInfo(result);
   status.value = "SIGN_IN";

@@ -9,9 +9,11 @@ import android.view.View
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import android.widget.RemoteViewsService.RemoteViewsFactory
+import com.whitestein.securestorage.PasswordStorageHelper
 import org.json.JSONArray
 import java.net.HttpURLConnection
 import java.net.URL
+import java.nio.charset.Charset
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -24,11 +26,9 @@ class GithubPullRequestService : RemoteViewsService() {
 
 class GithubPullRequestFactory(private val widgetContext: Context, val intent: Intent) :
     RemoteViewsFactory {
-    private val notifications: MutableList<HashMap<String, String>> = ArrayList()
-    private val token: String = BuildConfig.GITHUB_TOKEN
+    private var notifications: MutableList<HashMap<String, String>> = ArrayList()
 
-    override fun onCreate() {
-    }
+    override fun onCreate() {}
 
     override fun onDataSetChanged() {
         val appWidgetManager = AppWidgetManager.getInstance(widgetContext)
@@ -154,7 +154,7 @@ class GithubPullRequestFactory(private val widgetContext: Context, val intent: I
         // Move the execution of the coroutine to the I/O dispatcher
         val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
         conn.requestMethod = "GET"
-        conn.setRequestProperty("Authorization", "token $token")
+        conn.setRequestProperty("Authorization", "token ${getToken()}")
         conn.setRequestProperty(
             "Content-Type",
             "application/json"
@@ -169,5 +169,14 @@ class GithubPullRequestFactory(private val widgetContext: Context, val intent: I
         }
     }
 
+    fun getToken(): String {
+        val storageHelper = PasswordStorageHelper(widgetContext)
+        return try {
+            val buffer: ByteArray = storageHelper.getData("githubToken")
+            String(buffer, Charset.forName("UTF-8"))
+        } catch (e: Exception) {
+            ""
+        }
+    }
 }
 
