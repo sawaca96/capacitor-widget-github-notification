@@ -1,9 +1,5 @@
 apply plugin: 'com.android.application'
 
-def secretPropertiesFile = rootProject.file("secret.properties")
-def secretProperties = new Properties()
-secretProperties.load(new FileInputStream(secretPropertiesFile))
-
 android {
 
     buildFeatures {
@@ -11,7 +7,6 @@ android {
     }
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
-        buildConfigField("String", "GITHUB_TOKEN", secretProperties['GITHUB_TOKEN'])
         applicationId "io.ionic.starter"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
