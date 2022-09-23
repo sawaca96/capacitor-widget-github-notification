@@ -9,5 +9,5 @@
     <string name="app_widget_description">This is an app widget description</string>
     <string name="app_widget_name">Github Notification Inbox</string>
     <string name="app_widget_updated_at">마지막 업데이트: %1$s</string>
-    <string name="empty_view_text">This is the empty view</string>
+    <string name="empty_view_text">1. Open App\n2. Remove Token if already exist\n3. Save Token</string>
 </resources>
