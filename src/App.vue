@@ -16,6 +16,7 @@
       <ion-button color="danger" @click="signOut">REMOVE TOKEN</ion-button>
     </div>
     <ion-spinner v-else type="medium"></ion-spinner>
+    <ion-button color="primary" @click="showToast()">SHOW TOAST</ion-button>
   </ion-app>
 </template>
 
@@ -121,5 +122,11 @@ const presentAlert = async (message: string) => {
     buttons: ["OK"],
   });
   await alert.present();
+};
+
+const showToast = () => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  window.android.showToast("From Webview");
 };
 </script>
