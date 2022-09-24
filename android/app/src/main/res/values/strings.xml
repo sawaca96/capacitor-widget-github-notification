@@ -10,4 +10,12 @@
     <string name="app_widget_name">Github Notification Inbox</string>
     <string name="app_widget_updated_at">마지막 업데이트: %1$s</string>
     <string name="empty_view_text">1. Open App\n2. Remove Token if already exist\n3. Save Token</string>
+    <string name="configuration_header">Query Params</string>
+    <string name="all_description">show marked as read</string>
+    <string name="participating_description">show directly participating or mentioned</string>
+    <string name="page_hint">page</string>
+    <string name="per_page_hint">perpage</string>
+    <string name="since_hint">since</string>
+    <string name="before_hint">before</string>
+    <string name="configuration_confirm_button_text">완료</string>
 </resources>
