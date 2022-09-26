@@ -15,7 +15,7 @@
     <string name="participating_description">show directly participating or mentioned</string>
     <string name="page_hint">page</string>
     <string name="per_page_hint">perpage</string>
-    <string name="since_hint">since</string>
-    <string name="before_hint">before</string>
+    <string name="since_hint">since(ex:2022-05-30T23:11:11Z)</string>
+    <string name="before_hint">before(ex:2022-12-25T05:23:11Z)</string>
     <string name="configuration_confirm_button_text">완료</string>
 </resources>

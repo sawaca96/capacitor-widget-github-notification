@@ -4,9 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="io.ionic.starter.GithubPullRequestConfig"
     android:padding="20dp"
-    android:background="#292929">
+    tools:context="io.ionic.starter.GithubPullRequestConfig">
 
     <TextView
         android:id="@+id/config_header"
@@ -14,72 +13,92 @@
         android:layout_height="wrap_content"
         android:text="@string/configuration_header"
         android:textAlignment="center"
-        android:textStyle="bold"
+        android:textColor="@android:color/white"
         android:textSize="14sp"
-        android:textColor="@android:color/white"/>
+        android:textStyle="bold" />
 
     <CheckBox
         android:id="@+id/all_params"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:buttonTint="@android:color/white"
         android:minHeight="48dp"
         android:text="@string/all_description"
-        android:textColor="@android:color/white"
-        android:buttonTint="@android:color/white"
-        />
+        android:textColor="@android:color/white" />
 
     <CheckBox
         android:id="@+id/participating_params"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:buttonTint="@android:color/white"
         android:minHeight="48dp"
         android:text="@string/participating_description"
-        android:textColor="@android:color/white"
-        android:buttonTint="@android:color/white" />
+        android:textColor="@android:color/white" />
+
+    <Button
+        android:id="@+id/since_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="showDatePickerDialog"
+        android:text="since date" />
+    <Button
+        android:id="@+id/since_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="showTimePickerDialog"
+        android:text="since time" />
+
+    <Button
+        android:id="@+id/before_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="showDatePickerDialog"
+        android:text="before date" />
+    <Button
+        android:id="@+id/before_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="showTimePickerDialog"
+        android:text="before time" />
 
     <EditText
-        android:id="@+id/since_params"
+        android:id="@+id/since"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:autofillHints="@string/since_hint"
-        android:hint="@string/since_hint"
+        android:autofillHints="@string/page_hint"
+        android:hint="@string/page_hint"
         android:inputType="datetime"
         android:minHeight="48dp"
-        android:textSize="14dp"
-        android:theme="@style/EditTextStyle"/>
-
+        android:textSize="14dp" />
     <EditText
-        android:id="@+id/before_params"
+        android:id="@+id/before"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/before_hint"
+        android:autofillHints="@string/page_hint"
+        android:hint="@string/page_hint"
         android:inputType="datetime"
         android:minHeight="48dp"
-        android:autofillHints="@string/before_hint"
-        android:textSize="14dp"
-        android:theme="@style/EditTextStyle"/>
+        android:textSize="14dp" />
 
     <EditText
         android:id="@+id/page_params"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:autofillHints="@string/page_hint"
         android:hint="@string/page_hint"
         android:inputType="numberSigned"
         android:minHeight="48dp"
-        android:autofillHints="@string/page_hint"
-        android:textSize="14dp"
-        android:theme="@style/EditTextStyle"/>
+        android:textSize="14dp" />
 
     <EditText
         android:id="@+id/per_page_params"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:autofillHints="@string/per_page_hint"
         android:hint="@string/per_page_hint"
         android:inputType="numberSigned"
         android:minHeight="48dp"
-        android:autofillHints="@string/per_page_hint"
-        android:textSize="14dp"
-        android:theme="@style/EditTextStyle"/>
+        android:textSize="14dp" />
 
     <Button
         android:id="@+id/config_confirm_button"
@@ -88,6 +107,6 @@
         android:maxHeight="48dp"
         android:onClick="confirmConfiguration"
         android:text="@string/configuration_confirm_button_text"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
 </LinearLayout>

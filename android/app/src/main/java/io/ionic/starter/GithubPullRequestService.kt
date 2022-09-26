@@ -117,7 +117,22 @@ class GithubPullRequestFactory(private val widgetContext: Context, val intent: I
 
     private fun fetchNotifications() {
         notifications.clear()
-        val result = httpGet(URL("https://api.github.com/notifications"))
+
+        val prefs = widgetContext.getSharedPreferences("github_pull_request", Context.MODE_PRIVATE)
+        val all= prefs.getString("all", false.toString())
+        val participating = prefs.getString("participating", false.toString())
+        val since = prefs.getString("since", null)
+        val before = prefs.getString("before", null)
+        val page = prefs.getString("page", 1.toString())
+        val perPage = prefs.getString("perPage", 50.toString())
+
+        // add query params to url except null values
+        val query = "all=$all&participating=$participating&page=$page&per_page=$perPage" +
+                if (since != null) "&since=$since" else "" +
+                if (before != null) "&before=$before" else ""
+        val url = URL("https://api.github.com/notifications?$query")
+
+        val result = httpGet(url)
         for (i in 0 until result.length()) {
             val jsonObject = result.getJSONObject(i)
             val updatedAt = jsonObject.getString("updated_at")
@@ -160,6 +175,7 @@ class GithubPullRequestFactory(private val widgetContext: Context, val intent: I
             "application/json"
         ) // The format of the content we're sending to the server
         conn.setRequestProperty("Accept", "application/json") //
+        // add parameter
 
         return if (conn.responseCode == HttpURLConnection.HTTP_OK) {
             val buffered = conn.inputStream.bufferedReader().use { it.readText() }
