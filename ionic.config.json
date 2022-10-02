@@ -1,0 +1,7 @@
+{
+  "name": "capacitor-widget-github-notification",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}
