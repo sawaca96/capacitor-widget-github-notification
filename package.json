@@ -10,6 +10,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@capacitor-firebase/authentication": "^1.1.0",
     "@capacitor/android": "4.3.0",
     "@capacitor/app": "4.0.1",
     "@capacitor/core": "4.3.0",
@@ -18,7 +19,9 @@
     "@capacitor/status-bar": "4.0.1",
     "@ionic/vue": "^6.0.0",
     "@ionic/vue-router": "^6.0.0",
+    "capacitor-secure-storage-plugin": "^0.8.0",
     "core-js": "^3.6.5",
+    "firebase": "^9.10.0",
     "ionicons": "^6.0.3",
     "vue": "^3.2.21",
     "vue-router": "^4.0.12"
