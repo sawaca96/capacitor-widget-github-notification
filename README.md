@@ -33,6 +33,12 @@ yarn add @capacitor-firebase/authentication firebase capacitor-secure-storage-pl
 [🔧 Update widget config](https://github.com/sawaca96/capacitor-widget-github-notification/commit/a5956d6f3eb0bd60fd7071e804d12a1bd08b1eba)
 
 
-4. Widget Design
+4. Make Vector Asset
+
+| 1 | 2 | 3 |
+| --- | --- | --- |
+| Download SVG from [Octicons](https://primer.style/octicons/) | ![image](https://user-images.githubusercontent.com/49309322/193585120-b06efe4c-5c04-4e2c-80e0-e28fd207ce06.png) | ![image](https://user-images.githubusercontent.com/49309322/193585552-af109fbd-c24a-4a42-b587-741f58e4f8f3.png) |
+
+5. Design Widget
 
 > Continue...
