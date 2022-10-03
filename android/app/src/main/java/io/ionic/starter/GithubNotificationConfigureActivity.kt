@@ -10,7 +10,7 @@ import android.widget.EditText
 import io.ionic.starter.databinding.GithubNotificationConfigureBinding
 
 /**
- * The configuration screen for the [GithubNotification] AppWidget.
+ * The configuration screen for the [GithubNotificationProvider] AppWidget.
  */
 class GithubNotificationConfigureActivity : Activity() {
     private var appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID

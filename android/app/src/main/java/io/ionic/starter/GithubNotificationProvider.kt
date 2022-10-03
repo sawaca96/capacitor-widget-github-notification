@@ -9,7 +9,7 @@ import android.widget.RemoteViews
  * Implementation of App Widget functionality.
  * App Widget Configuration implemented in [GithubNotificationConfigureActivity]
  */
-class GithubNotification : AppWidgetProvider() {
+class GithubNotificationProvider : AppWidgetProvider() {
     override fun onUpdate(
         context: Context,
         appWidgetManager: AppWidgetManager,
