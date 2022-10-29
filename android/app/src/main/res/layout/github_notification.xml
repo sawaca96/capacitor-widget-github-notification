@@ -1,5 +1,4 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -58,5 +57,25 @@
             android:src="@drawable/ic_baseline_sync_24" />
 
     </LinearLayout>
+
+    <ListView
+        android:id="@+id/widgetListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#1c1c1c"
+        android:paddingHorizontal="10dp"
+        android:scrollbars="vertical" />
+
+    <TextView
+        android:id="@+id/widgetEmptyList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#1c1c1c"
+        android:gravity="center"
+        android:text="No Notifications"
+        android:textColor="#ffffff"
+        android:textSize="14dp"
+        android:textStyle="bold" />
+
 
 </LinearLayout>

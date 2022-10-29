@@ -3,6 +3,7 @@ package io.ionic.starter
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
+import android.content.Intent
 import android.widget.RemoteViews
 import java.text.SimpleDateFormat
 import java.util.*
@@ -53,6 +54,10 @@ internal fun updateAppWidget(
         R.id.widgetUpdatedAt,
         "마지막 업데이트: ${SimpleDateFormat("H:mm").format(Date())}"
     )
+
+    val serviceIntent = Intent(context, GithubNotificationService::class.java)
+    views.setRemoteAdapter(R.id.widgetListView, serviceIntent)
+    views.setEmptyView(R.id.widgetListView, R.id.widgetEmptyList)
 
     // Instruct the widget manager to update the widget
     appWidgetManager.updateAppWidget(appWidgetId, views)
