@@ -1,19 +1,94 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/Widget.Android.AppWidget.Container"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/AppTheme.AppWidgetContainer">
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#292929"
+        android:orientation="horizontal"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="4dp"
+        android:weightSum="10">
+
+        <ImageView
+            android:id="@+id/widgetGithubIcon"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:contentDescription="@string/app_widget_description"
+            android:padding="4dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_oticon_mark_github" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="6dp"
+            android:layout_weight="8"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/widgetTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:text="@string/app_widget_name"
+                android:textSize="12dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/widgetUpdatedAt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/app_widget_updated_at"
+                android:textSize="10dp" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/widgetSyncIcon"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/app_widget_description"
+            android:minWidth="48dp"
+            android:padding="2dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_baseline_sync_24" />
+
+        <ProgressBar
+            android:id="@+id/widgetSyncIconRotate"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/app_widget_description"
+            android:indeterminateDrawable="@drawable/ic_baseline_sync_24_rotate_anticlockwise"
+            android:minWidth="48dp"
+            android:padding="2dp"
+            android:scaleType="centerInside"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/widgetItemList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#1c1c1c"
+        android:paddingHorizontal="10dp"
+        android:scrollbars="vertical" />
 
     <TextView
-        android:id="@+id/appwidget_text"
-        style="@style/Widget.Android.AppWidget.InnerView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_margin="8dp"
-        android:contentDescription="@string/appwidget_text"
-        android:text="@string/appwidget_text"
-        android:textSize="24sp"
-        android:textStyle="bold|italic" />
-</RelativeLayout>
+        android:id="@+id/widgetEmptyText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#1c1c1c"
+        android:gravity="center"
+        android:text="@string/empty_view_text"
+        android:textColor="#ffffff"
+        android:textSize="14dp"
+        android:textStyle="bold" />
+
+</LinearLayout>

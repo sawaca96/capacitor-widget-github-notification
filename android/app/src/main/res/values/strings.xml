@@ -8,4 +8,8 @@
     <string name="configure">Configure</string>
     <string name="add_widget">Add widget</string>
     <string name="app_widget_description">This is an app widget description</string>
+    <string name="app_widget_updated_at">마지막 업데이트: 15:30</string>
+    <string name="app_widget_item_updated_at">5 hours ago</string>
+    <string name="empty_view_text">1. Open App\n2. Remove Token if already exist\n3. Save Token</string>
+    <string name="app_widget_name">Github Notification</string>
 </resources>
