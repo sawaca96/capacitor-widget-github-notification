@@ -40,6 +40,84 @@ yarn add @capacitor-firebase/authentication firebase capacitor-secure-storage-pl
 | ------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
 | Download SVG from [Octicons](https://primer.style/octicons/) | ![image](https://user-images.githubusercontent.com/49309322/193585120-b06efe4c-5c04-4e2c-80e0-e28fd207ce06.png) | ![image](https://user-images.githubusercontent.com/49309322/193585552-af109fbd-c24a-4a42-b587-741f58e4f8f3.png) |
 
-### 5. Design Widget
+### 5-1. Header Design
 
-> Continue...
+```
+LinearLayout(Root)
+  ㄴ LinearLayout(Header)
+    ㄴ ImageView(Github Icon)
+    ㄴ LinearLayout(Title And Updated At)
+      ㄴ TextView(Title)
+      ㄴ TextView(Updated At)
+    ㄴ ImageButton(Sync Icon)
+```
+
+<details>
+<summary>
+Design Spec
+</summary>
+
+**Root**
+
+- component: LinearLayout(vertical)
+- xmlns:app=xmlns:android="http://schemas.android.com/apk/res/android"
+
+**Header**
+
+- component: LinearLayout(horizontal)
+- height: 40dp
+- background: #292929
+- paddingVertical: 4dp
+- paddingHorizontal: 10dp
+- weightSum: 10
+
+**Github Icon**
+
+- component: ImageView
+- layout_height: match_parent
+- layout_weight: 1
+- padding: 4dp
+- scaleType: fitCenter
+- src:
+
+**Title And Updated At**
+
+- component: LinearLayout(vertical)
+- marginStart: 6dp
+- layout_weight: 8
+
+**Title**
+
+- component: TextView
+- marginBottom: 2dp
+- textSize: 12dp
+- textStyle: bold
+
+**Updated At**
+
+- component: TextView
+- textSize: 10dp
+
+**Sync Icon**
+
+- component: ImageButton
+- layout_height: match_parent
+- layout_weight: 1
+- background: @android:color/transparent
+- minWidth: 48dp
+- padding: 2dp
+- scaleType: centerInside
+- src:
+</details>
+
+### 5-2. Header Updated At
+
+Set Updated At
+
+```kotlin
+// updateAppWidget in GithubNotificationProvider.kt
+views.setTextViewText(
+    R.id.widgetUpdatedAt,
+    "마지막 업데이트: ${SimpleDateFormat("H:mm").format(Date())}"
+)
+```

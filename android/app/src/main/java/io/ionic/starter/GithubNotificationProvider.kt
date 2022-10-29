@@ -4,6 +4,8 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.widget.RemoteViews
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * Implementation of App Widget functionality.
@@ -46,6 +48,11 @@ internal fun updateAppWidget(
     // Construct the RemoteViews object
     val views = RemoteViews(context.packageName, R.layout.github_notification)
     views.setTextViewText(R.id.appwidget_text, widgetText)
+
+    views.setTextViewText(
+        R.id.widgetUpdatedAt,
+        "마지막 업데이트: ${SimpleDateFormat("H:mm").format(Date())}"
+    )
 
     // Instruct the widget manager to update the widget
     appWidgetManager.updateAppWidget(appWidgetId, views)

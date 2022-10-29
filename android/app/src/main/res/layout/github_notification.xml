@@ -1,19 +1,62 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/Widget.Android.AppWidget.Container"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/AppTheme.AppWidgetContainer">
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/appwidget_text"
-        style="@style/Widget.Android.AppWidget.InnerView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_margin="8dp"
-        android:contentDescription="@string/appwidget_text"
-        android:text="@string/appwidget_text"
-        android:textSize="24sp"
-        android:textStyle="bold|italic" />
-</RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#292929"
+        android:orientation="horizontal"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="4dp"
+        android:weightSum="10">
+
+        <ImageView
+            android:id="@+id/widgetGithubIcon"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="4dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_octicon_mark_github" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="6dp"
+            android:layout_weight="8"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/widgetTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:text="Github Notifications"
+                android:textSize="12dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/widgetUpdatedAt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="마지막 업데이트: 15:30"
+                android:textSize="10dp" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/widgetSyncButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:minWidth="48dp"
+            android:padding="2dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_baseline_sync_24" />
+
+    </LinearLayout>
+
+</LinearLayout>
