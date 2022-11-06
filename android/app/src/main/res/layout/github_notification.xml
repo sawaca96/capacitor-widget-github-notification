@@ -56,6 +56,19 @@
             android:scaleType="centerInside"
             android:src="@drawable/ic_baseline_sync_24" />
 
+        <ProgressBar
+            android:id="@+id/widgetSyncButtonRotate"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/app_widget_description"
+            android:indeterminateDrawable="@drawable/ic_baseline_sync_24_rotate_anticlockwise"
+            android:minWidth="48dp"
+            android:padding="2dp"
+            android:scaleType="centerInside"
+            android:visibility="gone" />
+
     </LinearLayout>
 
     <ListView

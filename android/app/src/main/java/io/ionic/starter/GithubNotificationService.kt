@@ -1,7 +1,12 @@
 package io.ionic.starter
 
+import android.appwidget.AppWidgetManager
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.os.SystemClock
+import android.util.Log
+import android.view.View
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 
@@ -62,7 +67,26 @@ class GithubNotificationFactory(
     }
 
     override fun onDataSetChanged() {
+        val appWidgetManager = AppWidgetManager.getInstance(context)
+        val appWidgetIds = appWidgetManager.getAppWidgetIds(
+            ComponentName(
+                context,
+                GithubNotificationProvider::class.java
+            )
+        )
+        val view = RemoteViews(context.packageName, R.layout.github_notification)
+
+        view.setViewVisibility(R.id.widgetSyncButton, View.GONE)
+        view.setViewVisibility(R.id.widgetSyncButtonRotate, View.VISIBLE)
+        appWidgetManager.partiallyUpdateAppWidget(appWidgetIds, view)
+
         Log.e("onDataSetChanged", "onDataSetChanged")
+        // TODO: fetch data from github
+        SystemClock.sleep(2000);
+
+        view.setViewVisibility(R.id.widgetSyncButtonRotate, View.GONE)
+        view.setViewVisibility(R.id.widgetSyncButton, View.VISIBLE)
+        appWidgetManager.partiallyUpdateAppWidget(appWidgetIds, view)
     }
 
     override fun onDestroy() {
