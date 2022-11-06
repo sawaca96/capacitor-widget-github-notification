@@ -32,6 +32,8 @@ yarn add @capacitor-firebase/authentication firebase capacitor-secure-storage-pl
 | --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
 | ![image](https://user-images.githubusercontent.com/49309322/193579408-5d6271b7-b877-469f-8aaa-8d7ee6e96a57.png) | ![image](https://user-images.githubusercontent.com/49309322/193579707-4c3ec37b-f255-4ce3-8c61-91d0592b4b95.png) | ![image](https://user-images.githubusercontent.com/49309322/193579859-f4f63cb8-f408-4b92-bfde-d8a45c59974f.png) | ![image](https://user-images.githubusercontent.com/49309322/193581041-37db8d94-a278-4965-8147-d1a16a945626.png) | ![image](https://user-images.githubusercontent.com/49309322/193580216-03a343bd-7070-4228-a6b5-9bff0bfeda76.png) |
 
+[🚚 Rename GithubNotificationProvider](https://github.com/sawaca96/capacitor-widget-github-notification/commit/b17f9cb0469bb6bfea1230b173aa27aa3d0895b5)(optional)
+
 [🔧 Update widget config](https://github.com/sawaca96/capacitor-widget-github-notification/commit/a5956d6f3eb0bd60fd7071e804d12a1bd08b1eba)
 
 ## 4. Make Vector Asset
@@ -110,7 +112,7 @@ Design Spec
 - src:
 </details>
 
-### Set Updated At
+### Implementaion updated at
 
 [GithubNotificationProvider.kt](https://github.com/sawaca96/capacitor-widget-github-notification/commit/bb5bfadf82da82e35a88fd3dd1bcd8da07d0954f#diff-0c67f0b5703e07bb3252bf0244478da2176d7b9dcc58078bb7bbefaa8585f975)
 
@@ -130,6 +132,8 @@ LinearLayout(Notification Root)
   ㄴ ListView(Notifications)
   ㄴ TextView(Empty)
 ```
+
+> Create github_notification_item layout !
 
 ```
 // layout/github_notification_item
@@ -218,7 +222,7 @@ Design Spec
 
 </details>
 
-Below contents referred by [Android Docs](https://developer.android.com/guide/topics/appwidgets/index.html#collections)
+> 💡 Below contents referred by [Android Docs](https://developer.android.com/guide/topics/appwidgets/index.html#collections)
 
 ### Create RemoteViewsSerivce
 
