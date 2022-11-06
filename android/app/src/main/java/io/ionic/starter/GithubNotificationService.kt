@@ -62,7 +62,7 @@ class GithubNotificationFactory(
     }
 
     override fun onDataSetChanged() {
-
+        Log.e("onDataSetChanged", "onDataSetChanged")
     }
 
     override fun onDestroy() {

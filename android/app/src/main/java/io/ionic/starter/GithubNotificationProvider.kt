@@ -1,7 +1,9 @@
 package io.ionic.starter
 
+import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
@@ -58,6 +60,21 @@ internal fun updateAppWidget(
     val serviceIntent = Intent(context, GithubNotificationService::class.java)
     views.setRemoteAdapter(R.id.widgetListView, serviceIntent)
     views.setEmptyView(R.id.widgetListView, R.id.widgetEmptyList)
+
+    val syncIntent = Intent(context, GithubNotificationProvider::class.java)
+    syncIntent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+    val componentName =
+        ComponentName(context.packageName, GithubNotificationProvider::class.java.name)
+    val appWidgetIds = appWidgetManager.getAppWidgetIds(componentName)
+    syncIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds)
+    val syncPendingIntent = PendingIntent.getBroadcast(
+        context,
+        appWidgetId,
+        syncIntent,
+        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+    )
+    views.setOnClickPendingIntent(R.id.widgetSyncButton, syncPendingIntent)
+    appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widgetListView)
 
     // Instruct the widget manager to update the widget
     appWidgetManager.updateAppWidget(appWidgetId, views)
