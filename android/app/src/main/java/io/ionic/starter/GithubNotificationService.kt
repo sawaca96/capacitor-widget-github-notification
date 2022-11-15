@@ -49,9 +49,7 @@ class GithubNotificationFactory(
         appWidgetManager.partiallyUpdateAppWidget(appWidgetIds, view)
     }
 
-    override fun onDestroy() {
-
-    }
+    override fun onDestroy() {}
 
     override fun getCount(): Int {
         return notifications.size
@@ -62,7 +60,45 @@ class GithubNotificationFactory(
         rv.setTextViewText(R.id.widgetNotificationTitle, notifications[p0].title)
         rv.setTextViewText(R.id.widgetNotificationRepoName, notifications[p0].repoName)
         rv.setTextViewText(R.id.widgetNotificationUpdatedAt, notifications[p0].timeDiff())
+        setIcon(notifications[p0].type, rv)
         return rv
+    }
+
+    private fun setIcon(type: String, rv: RemoteViews) {
+        when (type) {
+            "CheckSuite" -> rv.setImageViewResource(
+                R.id.widgetNotificationIcon,
+                R.drawable.ic_octicon_sync
+            )
+            "Commit" -> rv.setImageViewResource(
+                R.id.widgetNotificationIcon,
+                R.drawable.ic_octicon_git_commit
+            )
+            "Discussion" -> rv.setImageViewResource(
+                R.id.widgetNotificationIcon,
+                R.drawable.ic_octicon_comment_discussion
+            )
+            "Issue" -> rv.setImageViewResource(
+                R.id.widgetNotificationIcon,
+                R.drawable.ic_octicon_issue_opened
+            )
+            "PullRequest" -> rv.setImageViewResource(
+                R.id.widgetNotificationIcon,
+                R.drawable.ic_octicon_git_pull_request
+            )
+            "Release" -> rv.setImageViewResource(
+                R.id.widgetNotificationIcon,
+                R.drawable.ic_octicon_tag
+            )
+            "RepositoryVulnerabilityAlert" -> rv.setImageViewResource(
+                R.id.widgetNotificationIcon,
+                R.drawable.ic_octicon_alert
+            )
+            else -> rv.setImageViewResource(
+                R.id.widgetNotificationIcon,
+                R.drawable.ic_octicon_question
+            )
+        }
     }
 
     override fun getLoadingView(): RemoteViews {
