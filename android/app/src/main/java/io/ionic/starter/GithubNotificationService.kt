@@ -4,11 +4,13 @@ import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.os.SystemClock
 import android.util.Log
 import android.view.View
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
+import com.whitestein.securestorage.PasswordStorageHelper
+import java.nio.charset.Charset
+
 
 class GithubNotificationService : RemoteViewsService() {
 
@@ -21,49 +23,9 @@ class GithubNotificationFactory(
     private val context: Context,
     intent: Intent
 ) : RemoteViewsService.RemoteViewsFactory {
-    private val notifications: ArrayList<Notification> = ArrayList()
+    private var notifications: ArrayList<Notification> = ArrayList()
 
     override fun onCreate() {
-        notifications.add(
-            Notification(
-                1,
-                "New issue opened",
-                "ionic-team/ionic",
-                "2022-10-29T08:49:35Z"
-            )
-        )
-        notifications.add(
-            Notification(
-                2,
-                "New issue opened",
-                "ionic-team/ionic",
-                "2022-10-29T14:49:35Z"
-            )
-        )
-        notifications.add(
-            Notification(
-                3,
-                "Deploy failed",
-                "alphaprime-dev/alphasquare",
-                "2022-10-28T08:49:35Z"
-            )
-        )
-        notifications.add(
-            Notification(
-                4,
-                "New issue opened",
-                "ionic-team/ionic",
-                "2022-09-28T08:49:35Z"
-            )
-        )
-        notifications.add(
-            Notification(
-                5,
-                "Something happened",
-                "facebook-create-react-app",
-                "2022-10-10T08:49:35Z"
-            )
-        )
     }
 
     override fun onDataSetChanged() {
@@ -80,9 +42,7 @@ class GithubNotificationFactory(
         view.setViewVisibility(R.id.widgetSyncButtonRotate, View.VISIBLE)
         appWidgetManager.partiallyUpdateAppWidget(appWidgetIds, view)
 
-        Log.e("onDataSetChanged", "onDataSetChanged")
-        // TODO: fetch data from github
-        SystemClock.sleep(2000);
+        notifications = GithubClient(this.getToken()).fetchNotifications()
 
         view.setViewVisibility(R.id.widgetSyncButtonRotate, View.GONE)
         view.setViewVisibility(R.id.widgetSyncButton, View.VISIBLE)
@@ -119,6 +79,16 @@ class GithubNotificationFactory(
 
     override fun hasStableIds(): Boolean {
         return true
+    }
+
+    private fun getToken(): String {
+        val storageHelper = PasswordStorageHelper(this.context)
+        return try {
+            val buffer: ByteArray = storageHelper.getData("githubToken")
+            String(buffer, Charset.forName("UTF-8"))
+        } catch (e: Exception) {
+            ""
+        }
     }
 
 }
