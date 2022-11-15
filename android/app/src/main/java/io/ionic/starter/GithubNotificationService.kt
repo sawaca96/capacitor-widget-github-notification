@@ -21,7 +21,7 @@ class GithubNotificationService : RemoteViewsService() {
 
 class GithubNotificationFactory(
     private val context: Context,
-    intent: Intent
+    private val intent: Intent
 ) : RemoteViewsService.RemoteViewsFactory {
     private var notifications: ArrayList<Notification> = ArrayList()
 
@@ -61,6 +61,10 @@ class GithubNotificationFactory(
         rv.setTextViewText(R.id.widgetNotificationRepoName, notifications[p0].repoName)
         rv.setTextViewText(R.id.widgetNotificationUpdatedAt, notifications[p0].timeDiff())
         setIcon(notifications[p0].type, rv)
+
+        intent.putExtra("url", notifications[p0].url())
+        intent.action = ITEM_CLICKED
+        rv.setOnClickFillInIntent(R.id.widgetNotification, intent)
         return rv
     }
 
