@@ -271,3 +271,33 @@ class GithubNotificationFactory(
 ### Add adapter
 
 [GithubNotificationProvider.kt](https://github.com/sawaca96/capacitor-widget-github-notification/commit/1142347d95e816061c971c9f4921702456657019#diff-0c67f0b5703e07bb3252bf0244478da2176d7b9dcc58078bb7bbefaa8585f975)
+
+## 7. Update List Itmes
+
+Apply intent to sync-button in header so that `onDataSetChanged` can be executed.
+
+[✨ Use onDataSetChanged](https://github.com/sawaca96/capacitor-widget-github-notification/commit/9667d0408000092e7d76624bbfe457915c3d5d69)
+
+Add an rotation animation to the sync-button so that user can notice it is updating.
+
+[💄 Rotate sync button](https://github.com/sawaca96/capacitor-widget-github-notification/commit/fffc70b135ad7c310f19b8a3e6d2305da1585787)
+
+## 8. Use Github API
+
+[✨ Fetch Notifications](https://github.com/sawaca96/capacitor-widget-github-notification/commit/522bb0a1177ae8a31072212a9354cb26ce2f360d)
+
+- Refer to [docs](https://docs.github.com/en/rest/activity/notifications) and add more fields to Notification that you want to show
+- Create GithubClient. using GithubClient we can use Notification objects
+- Use GithubClient in `onDataSetChanged`
+
+[💄 Set proper icon](https://github.com/sawaca96/capacitor-widget-github-notification/commit/c2140e5fd2306077145b3c0b738ecf8995b59174)
+
+- Add an icon that fits the type of Notification to make look pretty
+
+## 9. Open notification at click
+
+[✨ Open notification when click item](https://github.com/sawaca96/capacitor-widget-github-notification/commit/86f9e91e9c836b535e243f10845ede31871edd44)
+
+- Create setPendingIntentTemplate in `updateAppWidget`
+- And fill in neccessary information for Open URL through intent in `getViewAt`
+- Open URL using intent in `onReceive`
